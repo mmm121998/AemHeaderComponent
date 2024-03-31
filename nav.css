@@ -1,0 +1,199 @@
+
+@media (min-width: 992px) {
+    .subnavigation-maindivdeise{
+    display: flex;
+}
+.subnavigation-childdivone{
+    width: 70%;
+}
+.subnavigation-childdivtwo {
+    width: 30%;
+}
+.subnavigation-columnchildd{
+    margin-left: 20px;
+    width:30%;
+}
+.subn-prdmnhead{
+    margin-top: 5px;
+    margin-bottom: 10px;
+    font-weight:bold
+}
+.subn-prdchlnk{
+    margin-top: 5px;
+    margin-bottom: 5px; 
+}
+.subn-prdmnheadlink{
+    color:black;
+}
+.subn-prdmnheadlink:hover{
+    color:black;
+}
+.subn-prdchuldlink{
+    color:black;
+}
+.subn-prdchuldlink:hover{
+    color:black;
+}
+.submain-deopdownlink{
+    color:black;
+}
+.submain-deopdownlink:hover{
+    color:black;
+}
+/*navigation poppup width for desktop only*/
+
+    .dropdown-containr{
+        width: 1000px;
+    }
+   /*for dropdown popup right side div start(for image things)*/
+   .subnavigation-childdivtwo-img{
+    margin-top: 20px;
+    margin-left: 60px;
+    width: 90px;
+   }
+   .sub-menu-list__promo--heading{
+    font-weight: bold;
+   }
+   a.sub-menu-list__promo--cta {
+    border-radius: 10px;
+    background-color: blue;
+    padding: 8px;
+    color: white;
+}
+.sub-menu-list__promo--description {
+    margin-bottom: 20px;
+}
+.subnavigation-childdivone {
+    display: flex;
+}
+.nav-mainpagelink{
+    font-size: 17px;
+    font-weight: bold;
+color: black;
+}
+.nav-mainpagelink:hover{
+    color: black;
+    }
+.nav-mainrightslink{
+    font-weight: bold;
+    color: black;
+    }
+ .nav-mainrightslink:hover{
+  color: black;
+        }
+.subn-mainleftside {
+ margin-left: 80px;
+        }   
+ .sign-inbtnlnk {
+    width: 220px;
+        }  
+        .sign-indropdown-mobile{
+            display: none;
+        } 
+        .searchdropdwn-onlydesk{
+            margin-left: -700px;
+            width: 700px;
+        }
+        .cartdropdwn-onlydesktop {
+            width: 600px;
+            margin-left: -600px;
+        } 
+        .Desktop-sign-inbtnlnk{
+    color: black;
+    background-color: #f8f9fa;
+    border: none;
+        }
+        .Desktop-sign-inbtnlnk:hover{
+            color: black;
+            background-color:#f8f9fa;
+            border: none;
+        }
+        .Desktop-sign-inbtnlnk:focus{
+            box-shadow: none;
+        }  
+        .show > .Desktop-sign-inbtnlnk:focus{
+            color: black;
+            background-color:#f8f9fa;
+              box-shadow:none !important;
+              border: none !important;
+            
+            }   
+            .desk-cart-inbtnlnk{
+                color: black;
+                background-color: #f8f9fa;
+                border: none;
+                    }
+                    .desk-cart-inbtnlnk:hover{
+                        color: black;
+                        background-color:#f8f9fa;
+                        border: none;
+                    }
+                    .desk-cart-inbtnlnk:focus{
+                        box-shadow: none;
+                    }  
+                    .show > .desk-cart-inbtnlnk:focus{
+                        color: black;
+                        background-color:#f8f9fa;
+                          box-shadow:none !important;
+                          border: none !important;
+                        
+                        } 
+                        
+  }
+
+  @media (max-width: 991px) {
+        .mainhead-pages {
+            flex-direction: row;
+            border: solid 2px;
+            border-radius: 50px;
+            border-radius: solid black;
+            align-items: center;
+            width: 100%;
+    }
+    .nav-mainpage {
+        text-align: center;
+        width: 33%;
+    }
+    .nav-mainpagelink {
+        font-weight: bold;
+        color: black;
+    }
+    .nav-mainrightsidecont{
+        display: none;
+    }
+    .subn-mainrightside{
+        display: none;
+    }
+    .sign-indropdown{
+        /*margin-right: -180px;*/
+        position: static;
+    }
+    .dropdwn-onlymobile{
+        border: none;
+        right: 0 !important;
+        width: 100% !important;
+    }
+    .mobile-sign-inbtnlnk{
+        color: black;
+        background-color:#f8f9fa;
+        border: none;
+    }
+    .mobile-sign-inbtnlnk:hover{
+        color: black;
+        background-color:#f8f9fa;
+        border: none;
+    }
+    .mobile-sign-inbtnlnk:focus{
+        box-shadow: none;
+    }
+    .show > .mobile-sign-inbtnlnk:focus{
+        color: black;
+        background-color:#f8f9fa;
+          box-shadow:none !important;
+          border: none !important;
+        
+        }
+        .input-search{
+            width: 70%;
+        }
+  }
