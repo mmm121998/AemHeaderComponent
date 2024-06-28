@@ -1,0 +1,110 @@
+---------Servlet Code------
+
+import org.apache.sling.api.servlets.HttpConstants;
+import org.apache.sling.api.servlets.SlingAllMethodsServlet;
+import org.osgi.service.component.annotations.Component;
+import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.resource.PersistenceException;
+import org.apache.sling.api.SlingHttpServletRequest;
+import org.apache.sling.api.SlingHttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.servlet.ServletException;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+@Component(service = Servlet.class,
+           property = {
+               "sling.servlet.methods=" + HttpConstants.METHOD_POST,
+               "sling.servlet.paths=/bin/example/demo"
+           })
+public class StroreUserDataServlet extends SlingAllMethodsServlet {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(StroreUserDataServlet.class);
+
+    @Override
+    protected void doPost(SlingHttpServletRequest req, SlingHttpServletResponse res) throws ServletException, IOException {
+        try {
+            String name = req.getParameter("name");
+            String email = req.getParameter("email");
+
+            ResourceResolver resolver = req.getResourceResolver();
+
+            Map<String, Object> map = new HashMap<>();
+            map.put("name", name);
+            map.put("email", email);
+
+            String nodeName = "user-" + name + "-" + UUID.randomUUID().toString().substring(0, 5);
+
+            resolver.create(resolver.getResource("/content/electronics-store/home/enquire-us/icc.content"), nodeName, map);
+            resolver.commit();
+
+            res.setContentType("application/json");
+            res.getWriter().write("{\"status\": \"success\", \"name\": \"" + name + "\", \"email\": \"" + email + "\"}");
+        } catch (PersistenceException e) {
+            LOGGER.error("Error creating JCR Node: {}", e.getMessage());
+            res.setStatus(SlingHttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            res.getWriter().write("{\"status\": \"error\", \"message\": \"" + e.getMessage() + "\"}");
+        }
+    }
+}
+
+
+
+
+-----Frontend Code to Use AJAX---------
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Form Example</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('myForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const form = event.target;
+                const formData = new FormData(form);
+
+                fetch('/bin/example/demo', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        document.getElementById('result').innerHTML = `
+                            <p>First Name: ${data.name}</p>
+                            <p>Last Name: ${data.email}</p>
+                        `;
+                    } else {
+                        document.getElementById('result').innerHTML = `
+                            <p>Error: ${data.message}</p>
+                        `;
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        });
+    </script>
+</head>
+<body>
+    <form id="myForm" class="form-Component">
+        <div>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div>
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+    <div id="result"></div>
+</body>
+</html>
