@@ -108,3 +108,160 @@ public class StroreUserDataServlet extends SlingAllMethodsServlet {
     <div id="result"></div>
 </body>
 </html>
+
+
+
+
+
+import React, { useState } from 'react';
+
+const RegistrationForm = () => {
+    const [formData, setFormData] = useState({
+        name: '',
+        username: '',
+        password: '',
+        confirmPassword: '',
+        role: 'Employee'
+    });
+
+    const [errors, setErrors] = useState({});
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value
+        });
+    };
+
+    const validate = () => {
+        let errors = {};
+        if (!formData.name) errors.name = "Name is required";
+        if (!formData.username) errors.username = "Username is required";
+        if (!formData.password) {
+            errors.password = "Password is required";
+        } else if (formData.password.length < 8) {
+            errors.password = "Password must be at least 8 characters long";
+        } else if (!/[A-Z]/.test(formData.password) || !/[a-z]/.test(formData.password) || !/[0-9]/.test(formData.password)) {
+            errors.password = "Password must contain at least one uppercase letter, one lowercase letter, and one number";
+        }
+        if (formData.password !== formData.confirmPassword) {
+            errors.confirmPassword = "Passwords do not match";
+        }
+        return errors;
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const validationErrors = validate();
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+        } else {
+            fetch('http://localhost:8080/api/users/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: formData.name,
+                    username: formData.username,
+                    password: formData.password,
+                    role: formData.role
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message || "Registration successful");
+            })
+            .catch(error => {
+                alert("An error occurred: " + error.message);
+            });
+        }
+    };
+
+    return (
+        <div className="registration-form">
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label htmlFor="name">Name:</label>
+                    <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} />
+                    {errors.name && <p>{errors.name}</p>}
+                </div>
+                <div>
+                    <label htmlFor="username">Username:</label>
+                    <input type="text" id="username" name="username" value={formData.username} onChange={handleChange} />
+                    {errors.username && <p>{errors.username}</p>}
+                </div>
+                <div>
+                    <label htmlFor="password">Password:</label>
+                    <input type="password" id="password" name="password" value={formData.password} onChange={handleChange} />
+                    {errors.password && <p>{errors.password}</p>}
+                </div>
+                <div>
+                    <label htmlFor="confirmPassword">Confirm Password:</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} />
+                    {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+                </div>
+                <div>
+                    <label htmlFor="role">Role:</label>
+                    <select id="role" name="role" value={formData.role} onChange={handleChange}>
+                        <option value="Employee">Employee</option>
+                        <option value="Manager">Manager</option>
+                        <option value="Admin">Admin</option>
+                    </select>
+                </div>
+                <button type="submit">Register</button>
+            </form>
+        </div>
+    );
+};
+
+export default RegistrationForm;
+
+
+/* src/RegistrationForm.css */
+.registration-form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 1em;
+    background: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.registration-form div {
+    margin-bottom: 1em;
+}
+
+.registration-form label {
+    margin-bottom: .5em;
+    color: #333333;
+    display: block;
+}
+
+.registration-form input, .registration-form select {
+    border: 1px solid #CCCCCC;
+    padding: .5em;
+    font-size: 1em;
+    width: calc(100% - 1em);
+}
+
+.registration-form button {
+    padding: 0.7em;
+    color: #fff;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.registration-form button:disabled {
+    background-color: #CCCCCC;
+}
+
+.registration-form p {
+    color: red;
+    font-size: .9em;
+}
+
+
